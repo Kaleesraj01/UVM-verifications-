@@ -1,5 +1,9 @@
 // Code your testbench here
 // or browse Examples
+// Code your testbench here
+// or browse Examples
+// Code your testbench here
+// or browse Examples
 `include "uvm_macros.svh";
 import uvm_pkg ::*;
 
@@ -34,6 +38,23 @@ class driver extends uvm_driver;
      `uvm_info("END OF ELABORATION PHASE","END OF ELABORATION PHASE CALLED FROM DRIVER COMPONENT",UVM_LOW);
     
   endfunction
+  
+  task run_phase(uvm_phase phase);
+    super.run_phase(phase);
+    
+    phase.raise_objection(this);
+    `uvm_info("RUN PHASE","RUN PHASE OBJECTION CALLED FROM DRIVER COMPONENT",UVM_LOW);
+    
+    #10;
+    
+    phase.drop_objection(this);
+    `uvm_info("RUN PHASE","RUN PHASE drop objection CALLED FROM DRIVER COMPONENT",UVM_LOW);
+    
+    
+    `uvm_info("RUN PHASE","RUN PHASE CALLED FROM DRIVER COMPONENT",UVM_LOW);
+    
+  endtask 
+    
   
   
   
@@ -72,6 +93,22 @@ class monitor extends uvm_monitor;
      `uvm_info("END OF ELABORATION PHASE","END OF ELABORATION PHASE CALLED FROM MONITOR COMPONENT",UVM_LOW);
     
   endfunction
+  
+   task run_phase(uvm_phase phase);
+    super.run_phase(phase);
+     
+       phase.raise_objection(this);
+     `uvm_info("RUN PHASE","RUN PHASE OBJECTION CALLED FROM monitor COMPONENT",UVM_LOW);
+    
+    #50;
+    
+         phase.drop_objection(this);   
+     `uvm_info("RUN PHASE","RUN PHASE drop objection CALLED FROM monitor COMPONENT",UVM_LOW);
+    
+    
+     `uvm_info("RUN PHASE","RUN PHASE CALLED FROM MONITOR COMPONENT",UVM_LOW);
+    
+  endtask
   
   
 endclass
@@ -118,6 +155,14 @@ class agent extends uvm_agent;
     
   endfunction
   
+   task run_phase(uvm_phase phase);
+    super.run_phase(phase);
+    
+    
+     `uvm_info("RUN PHASE","RUN PHASE CALLED FROM AGENT COMPONENT",UVM_LOW);
+    
+  endtask
+  
   
 endclass
 
@@ -157,6 +202,14 @@ class env extends uvm_env;
     
   endfunction
   
+   task run_phase(uvm_phase phase);
+    super.run_phase(phase);
+    
+    
+     `uvm_info("RUN PHASE","RUN PHASE CALLED FROM ENV COMPONENT",UVM_LOW);
+    
+  endtask
+  
   
 endclass
 
@@ -182,7 +235,8 @@ class test extends uvm_test;
     
   endfunction
   
-   function void connect_phase(uvm_phase phase);
+   function void connect_phase(uvm_phase
+phase);
     super.connect_phase(phase);
     
      `uvm_info("CONNECT_PHASE","CONNECT PHASE CALLED FROM TEST COMPONENT",UVM_LOW);
@@ -197,7 +251,17 @@ class test extends uvm_test;
     
     `uvm_info("END OF ELABORATION PHASE","END OF ELABORATION PHASE CALLED FROM TEST COMPONENT",UVM_LOW);
     
-  endfunction
+     endfunction
+    
+     task run_phase(uvm_phase phase);
+    super.run_phase(phase);
+    
+    
+       `uvm_info("RUN PHASE","RUN PHASE CALLED FROM TEST COMPONENT",UVM_LOW);
+    
+  endtask
+    
+ 
   
   
 endclass
@@ -208,22 +272,22 @@ module top;
     run_test("test");
 endmodule
 
-OUTPUT // 
-# KERNEL: UVM_INFO @ 0: reporter [RNTST] Running test test...
-# KERNEL: UVM_INFO /home/runner/testbench.sv(178) @ 0: uvm_test_top [BUILD_PHASE] BUILD PHASE CALLED FROM TEST COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(137) @ 0: uvm_test_top.envh [BUILD_PHASE] BUILD PHASE CALLED FROM ENV COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(94) @ 0: uvm_test_top.envh.agnth [BUILD_PHASE] BUILD PHASE CALLED FROM AGENT COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(17) @ 0: uvm_test_top.envh.agnth.drvh [BUILD_PHASE] BUILD PHASE CALLED FROM DRIVER COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(55) @ 0: uvm_test_top.envh.agnth.monh [BUILD_PHASE] BUILD PHASE CALLED FROM MONITOR COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(24) @ 0: uvm_test_top.envh.agnth.drvh [CONNECT_PHASE] CONNECT PHASE CALLED FROM DRIVER COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(62) @ 0: uvm_test_top.envh.agnth.monh [CONNECT_PHASE] CONNECT PHASE CALLED FROM MONTIOR COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(107) @ 0: uvm_test_top.envh.agnth [CONNECT_PHASE] CONNECT PHASE CALLED FROM AGENT COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(146) @ 0: uvm_test_top.envh [CONNECT_PHASE] CONNECT PHASE CALLED FROM ENV COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(188) @ 0: uvm_test_top [CONNECT_PHASE] CONNECT PHASE CALLED FROM TEST COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(34) @ 0: uvm_test_top.envh.agnth.drvh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM DRIVER COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(72) @ 0: uvm_test_top.envh.agnth.monh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM MONITOR COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(117) @ 0: uvm_test_top.envh.agnth [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM AGENT COMPONENT
-# KERNEL: UVM_INFO /home/runner/testbench.sv(156) @ 0: uvm_test_top.envh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM ENV COMPONENT
+OUTPUT 
+ KERNEL: UVM_INFO @ 0: reporter [RNTST] Running test test...
+# KERNEL: UVM_INFO /home/runner/testbench.sv(231) @ 0: uvm_test_top [BUILD_PHASE] BUILD PHASE CALLED FROM TEST COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(182) @ 0: uvm_test_top.envh [BUILD_PHASE] BUILD PHASE CALLED FROM ENV COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(131) @ 0: uvm_test_top.envh.agnth [BUILD_PHASE] BUILD PHASE CALLED FROM AGENT COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(21) @ 0: uvm_test_top.envh.agnth.drvh [BUILD_PHASE] BUILD PHASE CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(76) @ 0: uvm_test_top.envh.agnth.monh [BUILD_PHASE] BUILD PHASE CALLED FROM MONITOR COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(28) @ 0: uvm_test_top.envh.agnth.drvh [CONNECT_PHASE] CONNECT PHASE CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(83) @ 0: uvm_test_top.envh.agnth.monh [CONNECT_PHASE] CONNECT PHASE CALLED FROM MONTIOR COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(144) @ 0: uvm_test_top.envh.agnth [CONNECT_PHASE] CONNECT PHASE CALLED FROM AGENT COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(191) @ 0: uvm_test_top.envh [CONNECT_PHASE] CONNECT PHASE CALLED FROM ENV COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(242) @ 0: uvm_test_top [CONNECT_PHASE] CONNECT PHASE CALLED FROM TEST COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(38) @ 0: uvm_test_top.envh.agnth.drvh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(93) @ 0: uvm_test_top.envh.agnth.monh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM MONITOR COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(154) @ 0: uvm_test_top.envh.agnth [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM AGENT COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(201) @ 0: uvm_test_top.envh [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM ENV COMPONENT
 # KERNEL: UVM_INFO ./uvm-1.2/src/base/uvm_root.svh(583) @ 0: reporter [UVMTOP] UVM testbench topology:
 # KERNEL: ----------------------------------------------------------
 # KERNEL: Name                   Type                    Size  Value
@@ -237,6 +301,17 @@ OUTPUT //
 # KERNEL:       monh             monitor                 -     @402 
 # KERNEL: ----------------------------------------------------------
 # KERNEL: 
-# KERNEL: UVM_INFO /home/runner/testbench.sv(198) @ 0: uvm_test_top [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM TEST COMPONENT
-# KERNEL: UVM_INFO ./uvm-1.2/src/base/uvm_report_server.svh(869) @ 0: reporter [UVM/REPORT/SERVER] 
+# KERNEL: UVM_INFO /home/runner/testbench.sv(252) @ 0: uvm_test_top [END OF ELABORATION PHASE] END OF ELABORATION PHASE CALLED FROM TEST COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(260) @ 0: uvm_test_top [RUN PHASE] RUN PHASE CALLED FROM TEST COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(209) @ 0: uvm_test_top.envh [RUN PHASE] RUN PHASE CALLED FROM ENV COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(162) @ 0: uvm_test_top.envh.agnth [RUN PHASE] RUN PHASE CALLED FROM AGENT COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(101) @ 0: uvm_test_top.envh.agnth.monh [RUN PHASE] RUN PHASE OBJECTION CALLED FROM monitor COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(46) @ 0: uvm_test_top.envh.agnth.drvh [RUN PHASE] RUN PHASE OBJECTION CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(51) @ 10: uvm_test_top.envh.agnth.drvh [RUN PHASE] RUN PHASE drop objection CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(54) @ 10: uvm_test_top.envh.agnth.drvh [RUN PHASE] RUN PHASE CALLED FROM DRIVER COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(106) @ 50: uvm_test_top.envh.agnth.monh [RUN PHASE] RUN PHASE drop objection CALLED FROM monitor COMPONENT
+# KERNEL: UVM_INFO /home/runner/testbench.sv(109) @ 50: uvm_test_top.envh.agnth.monh [RUN PHASE] RUN PHASE CALLED FROM MONITOR COMPONENT
+# KERNEL: UVM_INFO ./uvm-1.2/src/base/uvm_objection.svh(1271) @ 50: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# KERNEL: UVM_INFO ./uvm-1.2/src/base/uvm_report_server.svh(869) @ 50: reporter [UVM/REPORT/SERVER] 
 # KERNEL: --- UVM Report Summary ---
+# KERNEL: 
