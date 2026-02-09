@@ -17,7 +17,7 @@ class d_test extends uvm_test;
     d_sequence seq;
     phase.raise_objection(this);
     seq = d_sequence::type_id::create("seq");
-    seq.start(env.agent.sequencer);
+    seq.start(env.agent.sequencer);    //"Start running this sequence on the agent's sequencer"
   
     phase.phase_done.set_drain_time(this, 50ns); 
     phase.drop_objection(this);
