@@ -1,4 +1,4 @@
-
+ 
 interface intf #(parameter data_width = 8,
   parameter depth = 16,parameter addr=$clog2(depth))
    (input logic clk);
